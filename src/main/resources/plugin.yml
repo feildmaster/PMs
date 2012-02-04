@@ -1,4 +1,12 @@
 name: ${name}
-main: com.feildmaster.template.Plugin
+main: ${groupId}.Plugin
 version: ${version}
 author: feildmaster
+
+commands:
+  tell:
+    aliases:
+      - msg
+  reply:
+    aliases:
+      - r
