@@ -23,6 +23,7 @@
             <artifactId>bukkit</artifactId>
             <version>1.1-R3</version>
             <type>jar</type>
+            <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>com.feildmaster.channelchat</groupId>

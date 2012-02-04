@@ -1,6 +1,5 @@
 package com.feildmaster.privatechat;
 
-import org.bukkit.entity.Player;
 import org.bukkit.event.*;
 import org.bukkit.event.player.*;
 
@@ -15,20 +14,31 @@ public class EventListener implements Listener {
     // Hook to modify recipients
     public void onChat(PlayerChatEvent event) {
         if(event.isCancelled()) return; // Canceled Event?
-        if(!plugin.messaging.containsKey(event.getPlayer().getName())) return; // Hasn't set Recipient yet?
-
-        event.getRecipients().clear(); // Empty List, Allows for other plugins to add in.
 
         String name = plugin.messaging.get(event.getPlayer().getName()); // Recipients name
-        if(name == null) {
-            // This shouldn't happen
+        String message = event.getMessage();
+
+        // Check for @[player]
+        if(message.startsWith("@")) {
+            String[] parts = message.split(" ", 2);
+            if(parts.length != 2) { // Please include a message!
+                return;
+            }
+
+            message = parts[1]; // Use provided message
+
+            if(parts[0].length() > 1) { // Use provided name
+                name = parts[0].substring(1);
+            }
+        }
+
+        if(name == null) { // This "shouldn't" happen... Needs testing
             return;
         }
-    }
 
-    @EventHandler()
-    public void format(PlayerChatEvent event) {
-        if(event.isCancelled()) return;
+        if (event.getPlayer().performCommand("tell "+name+" "+message)) { // Send this chat as a command!
+            event.setCancelled(true);
+        }
     }
 
     @EventHandler
