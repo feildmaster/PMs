@@ -1,0 +1,4 @@
+name: ${name}
+main: com.feildmaster.template.Plugin
+version: ${version}
+author: feildmaster
